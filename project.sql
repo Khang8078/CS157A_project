@@ -119,7 +119,7 @@ VALUES
   (4, 4, '987 Pine St', 'Anytown', 'CA', '54321', 'USA'),
   (5, 5, '654 Oak St', 'Nowhere', 'TX', '67890', 'USA');
 
-   CREATE TABLE `customer_payment_method` (
+   CREATE TABLE `payment_method` (
   `payment_id` int(11) NOT NULL AUTO_INCREMENT,
   `customer_id` int(11) NOT NULL,
   `type` varchar(50) NOT NULL,
