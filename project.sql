@@ -44,17 +44,18 @@ VALUES
 
   CREATE TABLE `advertiser` (
   `advertiser_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
   `tiktok_id` varchar(50) NOT NULL,
   PRIMARY KEY (`advertiser_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 -- Insert data into `advertiser` table
-INSERT INTO `advertiser` (`advertiser_id`, `tiktok_id`)
+INSERT INTO `advertiser` (`advertiser_id`, `name`, `tiktok_id`)
 VALUES
-  (1, '@tiktok_advertiser1'),
-  (2, '@tiktok_advertiser2'),
-  (3, '@tiktok_advertiser3'),
-  (4, '@tiktok_advertiser4'),
-  (5, '@tiktok_advertiser5');
+  (1, 'advertiser1', '@tiktok_advertiser1'),
+  (2, 'advertiser2', '@tiktok_advertiser2'),
+  (3, 'advertiser3', '@tiktok_advertiser3'),
+  (4, 'advertiser4', '@tiktok_advertiser4'),
+  (5, 'advertiser5',  '@tiktok_advertiser5');
 
 CREATE TABLE `videos` (
   `video_id` int(11) NOT NULL AUTO_INCREMENT,
