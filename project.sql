@@ -22,6 +22,26 @@ VALUES
   (6, 'Slim Fit Jeans', 'Pants', 'Calvin Klein'),
   (7, 'Running Shorts', 'Shorts', 'Under Armour');
 
+
+CREATE TABLE `products_in_stock` (
+  `stock_id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) NOT NULL,
+  `size` varchar(8) NOT NULL,
+  `color` varchar(50) NOT NULL,
+  `number_in_stock` int(11) NOT NULL,
+  `unit_price` decimal(4,2) NOT NULL,
+  PRIMARY KEY (`stock_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+INSERT INTO `products_in_stock` (`stock_id`, `product_id`, `size`, `color`, `quantity_in_stock`, `unit_price`)
+VALUES
+  (1, 1, 'M', 'Blue', 50, 19.99),
+  (2, 2, 'L', 'Black', 30, 29.99),
+  (3, 3, '9', 'White', 20, 79.99),
+  (4, 4, 'M', 'Blue', 15, 59.99),
+  (5, 5, 'XL', 'Gray', 25, 49.99),
+  (6, 6, '32', 'Black', 35, 69.99),
+  (7, 7, 'S', 'Red', 40, 24.99);
+
   CREATE TABLE `advertiser` (
   `advertiser_id` int(11) NOT NULL AUTO_INCREMENT,
   `tiktok_id` varchar(50) NOT NULL,
@@ -55,28 +75,6 @@ VALUES
   (5, 5, 'https://example.com/video5', 5);
 
 
-
-CREATE TABLE `products_in_stock` (
-  `stock_id` int(11) NOT NULL AUTO_INCREMENT,
-  `product_id` int(11) NOT NULL,
-  `size` varchar(8) NOT NULL,
-  `color` varchar(50) NOT NULL,
-  `quantity_in_stock` int(11) NOT NULL,
-  `unit_price` decimal(4,2) NOT NULL,
-  PRIMARY KEY (`stock_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-INSERT INTO `products_in_stock` (`stock_id`, `product_id`, `size`, `color`, `quantity_in_stock`, `unit_price`)
-VALUES
-  (1, 1, 'M', 'Blue', 50, 19.99),
-  (2, 2, 'L', 'Black', 30, 29.99),
-  (3, 3, '9', 'White', 20, 79.99),
-  (4, 4, 'M', 'Blue', 15, 59.99),
-  (5, 5, 'XL', 'Gray', 25, 49.99),
-  (6, 6, '32', 'Black', 35, 69.99),
-  (7, 7, 'S', 'Red', 40, 24.99);
-
-
-
 -- Create `customers` table
 CREATE TABLE `customers` (
   `customer_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -84,17 +82,19 @@ CREATE TABLE `customers` (
   `last_name` varchar(50) NOT NULL,
   `birth_date` date DEFAULT NULL,
   `phone` varchar(50) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
+
   PRIMARY KEY (`customer_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Insert data into `customers` table
-INSERT INTO `customers` (`customer_id`, `first_name`, `last_name`, `birth_date`, `phone`)
+INSERT INTO `customers` (`customer_id`, `first_name`, `last_name`, `birth_date`, `phone`, `email`)
 VALUES
-  (1, 'John', 'Doe', '1990-05-15', '+1234567890'),
-  (2, 'Alice', 'Johnson', '1985-08-20', '+9876543210'),
-  (3, 'Bob', 'Smith', '1995-03-12', '+1122334455'),
-  (4, 'Emily', 'Williams', '1988-12-15', '+9876543211'),
-  (5, 'David', 'Miller', '1992-07-22', '+1122334456');
+  (1, 'John', 'Doe', '1990-05-15', '+1234567890', 'abc@gmail.com'),
+  (2, 'Alice', 'Johnson', '1985-08-20', '+9876543210', 'abd@gmail.com'),
+  (3, 'Bob', 'Smith', '1995-03-12', '+1122334455', 'abe@gmail.com'),
+  (4, 'Emily', 'Williams', '1988-12-15', '+9876543211', 'abf@gmail.com'),
+  (5, 'David', 'Miller', '1992-07-22', '+1122334456', 'abh@gmail.com');
 
 
 -- Create `address` table
@@ -118,26 +118,7 @@ VALUES
   (4, 4, '987 Pine St', 'Anytown', 'CA', '54321', 'USA'),
   (5, 5, '654 Oak St', 'Nowhere', 'TX', '67890', 'USA');
 
--- Create `shipping` table
-CREATE TABLE `shipping` (
-  `shipping_id` int(11) NOT NULL AUTO_INCREMENT,
-  `address_id` int(11) NOT NULL,
-  `shipper` varchar(50) NOT NULL,
-  `method` varchar(50) NOT NULL,
-  `shipped_date` date DEFAULT NULL,
-  PRIMARY KEY (`shipping_id`),
-  CONSTRAINT `fk_address_shipping` FOREIGN KEY (`address_id`) REFERENCES `address` (`address_id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
--- Insert data into `shipping` table
-INSERT INTO `shipping` (`shipping_id`,`address_id`, `shipper`, `method`, `shipped_date`)
-VALUES
-  (1, 1, 'Express Shipping', 'Air', '2023-11-10'),
-  (2, 2, 'Standard Shipping', 'Ground', '2023-11-05'),
-  (3, 3, 'Express Shipping', 'Air', '2023-11-08'),
-  (4, 4, 'Standard Shipping', 'Ground', '2023-11-12'),
-  (5, 5, 'Express Shipping', 'Air', '2023-11-15');
-
- CREATE TABLE `customer_payment_method` (
+   CREATE TABLE `customer_payment_method` (
   `payment_id` int(11) NOT NULL AUTO_INCREMENT,
   `customer_id` int(11) NOT NULL,
   `type` varchar(50) NOT NULL,
@@ -156,6 +137,25 @@ VALUES
   (3, 3, 'Debit Card', 'MasterCard', '9876543210123456', 0324, 1),
   (4, 4, 'Credit Card', 'MasterCard', '1234567890123456', 0625, 1),
   (5, 5, 'PayPal', 'PayPal', '555555555555555', 0924, 0);
+
+-- Create `shipping` table
+CREATE TABLE `shipping` (
+  `shipping_id` int(11) NOT NULL AUTO_INCREMENT,
+  `address_id` int(11) NOT NULL,
+  `shipper` varchar(50) NOT NULL,
+  `shipping_method` varchar(50) NOT NULL,
+  `shipped_date` date DEFAULT NULL,
+  PRIMARY KEY (`shipping_id`),
+  CONSTRAINT `fk_address_shipping` FOREIGN KEY (`address_id`) REFERENCES `address` (`address_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+-- Insert data into `shipping` table
+INSERT INTO `shipping` (`shipping_id`,`address_id`, `shipper`, `method`, `shipped_date`)
+VALUES
+  (1, 1, 'Express Shipping', 'Air', '2023-11-10'),
+  (2, 2, 'Standard Shipping', 'Ground', '2023-11-05'),
+  (3, 3, 'Express Shipping', 'Air', '2023-11-08'),
+  (4, 4, 'Standard Shipping', 'Ground', '2023-11-12'),
+  (5, 5, 'Express Shipping', 'Air', '2023-11-15');
 
 -- Create the orders table
 CREATE TABLE `orders` (
@@ -201,20 +201,6 @@ VALUES
   (4, 5, 2, 49.99),
   (5, 6, 1, 69.99),
   (5, 7, 3, 24.99);
-
--- Create `customer_review` table
-CREATE TABLE `customer_review` (
-  `review_id` int(11) NOT NULL AUTO_INCREMENT,
-  `customer_id` int(11) NOT NULL,
-  `order_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `rating` int(11) NOT NULL,
-  `comment` text,
-  PRIMARY KEY (`review_id`),
-  CONSTRAINT `fk_review_customers` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`customer_id`) ON UPDATE CASCADE,
-  CONSTRAINT `fk_review_orders` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON UPDATE CASCADE,
-  CONSTRAINT `fk_review_products` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Create the customer_review table
 DROP TABLE IF EXISTS `customer_review`;
