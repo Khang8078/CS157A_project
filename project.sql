@@ -42,6 +42,30 @@ VALUES
   (6, 6, '32', 'Black', 35, 69.99),
   (7, 7, 'S', 'Red', 40, 24.99);
 
+  -- Create the customer_review table
+DROP TABLE IF EXISTS `customer_review`;
+
+CREATE TABLE `customer_review` (
+  `customer_review_id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) NOT NULL,
+  `rating` int(11) NOT NULL,
+  `comment` text,
+  PRIMARY KEY (`review_id`),
+  CONSTRAINT `fk_review_customers` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`customer_id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_review_orders` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_review_products` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Insert data into the customer_review table
+INSERT INTO `customer_review` (`customer_review_id`, `product_id`, `rating`, `comment`)
+VALUES
+  (1, 1, 5, 'Great product!'),
+  (2, 2, 4, 'Good quality, fast shipping'),
+  (3, 3, 5, 'Excellent shoes, very comfortable'),
+  (4, 4, 3, 'Nice jacket, but the size is a bit big'),
+  (5, 5, 5, 'Love the hoodie!'),
+
+
   CREATE TABLE `advertiser` (
   `advertiser_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
@@ -56,6 +80,7 @@ VALUES
   (3, 'advertiser3', '@tiktok_advertiser3'),
   (4, 'advertiser4', '@tiktok_advertiser4'),
   (5, 'advertiser5',  '@tiktok_advertiser5');
+
 
 CREATE TABLE `videos` (
   `video_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -203,32 +228,7 @@ VALUES
   (5, 6, 1, 69.99),
   (5, 7, 3, 24.99);
 
--- Create the customer_review table
-DROP TABLE IF EXISTS `customer_review`;
 
-CREATE TABLE `customer_review` (
-  `review_id` int(11) NOT NULL AUTO_INCREMENT,
-  `customer_id` int(11) NOT NULL,
-  `order_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `rating` int(11) NOT NULL,
-  `comment` text,
-  PRIMARY KEY (`review_id`),
-  CONSTRAINT `fk_review_customers` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`customer_id`) ON UPDATE CASCADE,
-  CONSTRAINT `fk_review_orders` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON UPDATE CASCADE,
-  CONSTRAINT `fk_review_products` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- Insert data into the customer_review table
-INSERT INTO `customer_review` (`customer_id`, `order_id`, `product_id`, `rating`, `comment`)
-VALUES
-  (1, 1, 1, 5, 'Great product!'),
-  (2, 2, 2, 4, 'Good quality, fast shipping'),
-  (3, 3, 3, 5, 'Excellent shoes, very comfortable'),
-  (4, 4, 4, 3, 'Nice jacket, but the size is a bit big'),
-  (5, 5, 5, 5, 'Love the hoodie!'),
-  (1, 1, 6, 4, 'Nice fit, good quality'),
-  (2, 2, 7, 5, 'Perfect shorts for running');
 
 -- Calculate and update order_total in the orders table
 UPDATE orders o
